@@ -1,0 +1,169 @@
+{
+	"info": {
+		"_postman_id": "b1a19c5c-7d34-4f2a-b73a-4a25920a0f9b",
+		"name": "Insurance Claims API",
+		"description": "API collection for the microservices-based Insurance Claims Application.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Claim Service",
+			"item": [
+				{
+					"name": "Create Claim",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"customerName\": \"John Doe\",\n    \"policyNumber\": \"POL-123456\",\n    \"claimType\": \"Auto\",\n    \"description\": \"Rear-ended at stop light.\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/claims",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"claims"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get All Claims",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/claims",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"claims"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Claim by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/claims/{{claimId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"claims",
+								"{{claimId}}"
+							]
+						}
+					}
+				}
+			]
+		},
+		{
+			"name": "Document Service",
+			"item": [
+				{
+					"name": "Upload Document",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "claimId",
+									"value": "{{claimId}}",
+									"type": "text"
+								},
+								{
+									"key": "document",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/documents/upload",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"documents",
+								"upload"
+							]
+						}
+					}
+				},
+				{
+					"name": "Get Documents by Claim ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/documents/claim/{{claimId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"documents",
+								"claim",
+								"{{claimId}}"
+							]
+						}
+					}
+				},
+				{
+					"name": "Download Document",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/documents/{{documentId}}/download",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"documents",
+								"{{documentId}}",
+								"download"
+							]
+						}
+					}
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost",
+			"type": "string"
+		},
+		{
+			"key": "claimId",
+			"value": "ENTER_CLAIM_UUID_HERE",
+			"type": "string"
+		},
+		{
+			"key": "documentId",
+			"value": "ENTER_DOCUMENT_UUID_HERE",
+			"type": "string"
+		}
+	]
+}

@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  # ─── Frontend ─────────────────────────────────────────────
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - claim-service
+      - document-service
+    networks:
+      - insurance-network
+
+  # ─── Claim Service ────────────────────────────────────────
+  claim-service:
+    build:
+      context: ./claim-service
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+      - DB_SERVER=${DB_SERVER}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+    networks:
+      - insurance-network
+
+  # ─── Document Service ─────────────────────────────────────
+  document-service:
+    build:
+      context: ./document-service
+      dockerfile: Dockerfile
+    ports:
+      - "3002:3002"
+    environment:
+      - PORT=3002
+      - DB_SERVER=${DB_SERVER}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - AZURE_STORAGE_CONNECTION_STRING=${AZURE_STORAGE_CONNECTION_STRING}
+    networks:
+      - insurance-network
+
+networks:
+  insurance-network:
+    driver: bridge
